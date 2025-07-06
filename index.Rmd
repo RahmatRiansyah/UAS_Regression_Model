@@ -1,0 +1,70 @@
+---
+title: "Tugas UAS Regression Models"
+author: "Rahmat Riansyah - Rekayasa Perangkat Lunak"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    css: style.css
+    theme: cerulean
+    highlight: zenburn
+    toc: true
+    toc_float: true
+    df_print: paged
+bibliography: references.bib
+---
+
+```{=html}
+<style>
+body{
+text-align: justify}
+</style>
+<hr style="border: 1px solid #007bff; margin: 20px 0;"/>
+```
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Nama Mahasiswa
+
+- **Nama**: Rahmat Riansyah
+- **NIM**: A3202300029
+- **Program Studi**: Rekayasa Perangkat Lunak
+- **Mata Kuliah**: Regression Models
+
+## Judul Aplikasi
+
+**Aplikasi Prediksi Variabel Y Berdasarkan Variabel X dengan Regresi Linier**
+
+## Tujuan
+
+Aplikasi ini dirancang untuk melakukan analisis regresi linier dan prediksi berbasis dataset generik. Pengguna dapat mengeksplorasi data, membangun model, menyimpan model, dan melakukan prediksi pada data baru.
+
+## Dataset yang Digunakan
+
+- **Dataset A**: HeatingOil.csv (Dataset Utama)
+- **Dataset B**: HeatingOil-Marketing.csv (Dataset Tambahan)
+
+Masing-masing dataset dibagi menjadi **training** dan **testing** (80:20).
+
+## Struktur Aplikasi (Tab)
+
+1. **Data Preview**: Menampilkan isi tabel dan statistik deskriptif.
+2. **Correlation Matrix**: Korelasi antar variabel numerik dalam bentuk matriks dan heatmap.
+3. **Exploratory Analysis**: Scatter plot dua variabel, dengan gradasi berdasarkan Y.
+4. **Model Regresi**: Bangun model regresi linier berdasarkan input user.
+5. **Prediksi Data Baru**: Prediksi menggunakan data testing dan model yang disimpan.
+
+## Fitur Khusus
+
+- Aplikasi menerima dataset dengan struktur kolom berbeda.
+- Model dapat disimpan dan dimuat kembali.
+- Validasi input dan dataset.
+
+## Alur Penggunaan
+
+1. Upload data (training dan testing).
+2. Eksplorasi data dan korelasi.
+3. Bangun model regresi dari data training.
+4. Simpan model.
+5. Muat data testing dan lakukan prediksi.

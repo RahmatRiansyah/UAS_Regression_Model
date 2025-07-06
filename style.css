@@ -1,0 +1,69 @@
+/* style.css - Tampilan profesional untuk laporan R Markdown */
+
+body {
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  color: #2c3e50;
+  background-color: #fdfefe;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+h1, h2, h3, h4 {
+  color: #1f618d;
+  border-bottom: 2px solid #d6eaf8;
+  padding-bottom: 5px;
+}
+
+code {
+  background-color: #f4f6f7;
+  border: 1px solid #d5d8dc;
+  border-radius: 4px;
+  padding: 2px 5px;
+  font-size: 95%;
+}
+
+pre {
+  background-color: #f9f9f9;
+  border-left: 4px solid #aed6f1;
+  padding: 10px;
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+th {
+  background-color: #d6eaf8;
+  color: #154360;
+  padding: 8px;
+  text-align: left;
+  border-bottom: 2px solid #aab7b8;
+}
+
+td {
+  padding: 8px;
+  border-bottom: 1px solid #e5e8e8;
+}
+
+tr:hover {
+  background-color: #f2f3f4;
+}
+
+a {
+  color: #2e86c1;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: #d5dbdb;
+  margin: 30px 0;
+}
