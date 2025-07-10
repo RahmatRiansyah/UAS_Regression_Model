@@ -36,35 +36,92 @@ knitr::opts_chunk$set(echo = TRUE)
 
 **Aplikasi Prediksi Variabel Y Berdasarkan Variabel X dengan Regresi Linier**
 
-## Tujuan
+---
+title: "Deskripsi Aplikasi Prediksi Regresi Linier"
+output: html_document
+---
 
-Aplikasi ini dirancang untuk melakukan analisis regresi linier dan prediksi berbasis dataset generik. Pengguna dapat mengeksplorasi data, membangun model, menyimpan model, dan melakukan prediksi pada data baru.
+## 🎯 Tujuan Aplikasi
 
-## Dataset yang Digunakan
+Aplikasi ini dirancang untuk membantu pengguna dalam menganalisis hubungan antar variabel menggunakan **regresi linier sederhana**, berbasis antarmuka web menggunakan **R Shiny**. Aplikasi ini bersifat **generik** dan dapat digunakan untuk berbagai dataset berbeda.
 
-- **Dataset A**: HeatingOil.csv (Dataset Utama)
-- **Dataset B**: HeatingOil-Marketing.csv (Dataset Tambahan)
+---
 
-Masing-masing dataset dibagi menjadi **training** dan **testing** (80:20).
+## 🧩 Fitur Utama Aplikasi
 
-## Struktur Aplikasi (Tab)
+Aplikasi memiliki enam tab utama:
 
-1. **Data Preview**: Menampilkan isi tabel dan statistik deskriptif.
-2. **Correlation Matrix**: Korelasi antar variabel numerik dalam bentuk matriks dan heatmap.
-3. **Exploratory Analysis**: Scatter plot dua variabel, dengan gradasi berdasarkan Y.
-4. **Model Regresi**: Bangun model regresi linier berdasarkan input user.
-5. **Prediksi Data Baru**: Prediksi menggunakan data testing dan model yang disimpan.
+### 1. 📊 **Data Training**
+- Menampilkan isi data training yang diunggah
+- Menyediakan tampilan tabel dan ringkasan data
 
-## Fitur Khusus
+### 2. 📉 **Korelasi**
+- Menampilkan matriks korelasi antar variabel numerik
+- Disajikan dalam bentuk heatmap menggunakan `corrplot`
 
-- Aplikasi menerima dataset dengan struktur kolom berbeda.
-- Model dapat disimpan dan dimuat kembali.
-- Validasi input dan dataset.
+### 3. 🔍 **Eksplorasi**
+- Menampilkan **scatter plot** dari variabel X terhadap Y
+- Gradasi warna mencerminkan intensitas nilai target:
+  - Biru = nilai target rendah
+  - Kuning = sedang
+  - Merah = tinggi
 
-## Alur Penggunaan
+### 4. 📈 **Model**
+- Pengguna memilih satu variabel target (Y) dan satu prediktor (X)
+- Model regresi linier dibentuk menggunakan `lm()`
+- Tampilkan ringkasan model (`summary`)
 
-1. Upload data (training dan testing).
-2. Eksplorasi data dan korelasi.
-3. Bangun model regresi dari data training.
-4. Simpan model.
-5. Muat data testing dan lakukan prediksi.
+### 5. 🧪 **Data Testing & Prediksi**
+- Data testing diunggah pengguna
+- Model digunakan untuk melakukan prediksi nilai Y
+- Hasil ditampilkan dalam bentuk tabel
+
+### 6. 📉 **Plot Prediksi**
+- Plot aktual vs prediksi
+- Warna menunjukkan besarnya nilai prediksi:
+  - Biru = rendah
+  - Merah = tinggi
+
+---
+
+## 🔁 Alur Kerja Aplikasi
+
+1. Upload file `.csv` sebagai data **training**
+2. Pilih variabel **Y (target)** dan **X (prediktor)**
+3. Klik tombol **Latih Model**
+4. Upload data **testing**
+5. Klik tombol **Prediksi**
+6. Hasil prediksi dan visualisasi ditampilkan
+7. Pengguna dapat **simpan model** atau **muat model** yang telah dilatih sebelumnya
+
+---
+
+## 🗂️ Dataset
+
+- **Dataset A**: HeatingOil.csv  
+- **Dataset B**: mtcars (bawaan R)
+
+Keduanya telah dipisahkan ke dalam:
+- `*_train.csv`
+- `*_test.csv`
+
+---
+
+## 💾 Fungsionalitas Tambahan
+
+- Mendukung berbagai dataset dengan struktur kolom yang berbeda
+- Menyimpan model (`saveRDS`) dan memuat kembali model (`readRDS`)
+- Menampilkan notifikasi bila model berhasil dimuat
+- Validasi input dilakukan dengan `req()` untuk mencegah kesalahan
+
+---
+
+## 📝 Penutup
+
+Aplikasi ini diharapkan mempermudah pengguna dalam:
+- Melatih model prediktif
+- Mengeksplorasi hubungan antar variabel
+- Memprediksi data baru menggunakan model linier
+
+Aplikasi dikembangkan dengan prinsip fleksibilitas dan kemudahan penggunaan oleh pengguna non-programmer.
+
