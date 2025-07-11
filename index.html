@@ -13,7 +13,7 @@
 
 <meta name="date" content="2025-07-11" />
 
-<title>Deskripsi Aplikasi Prediksi Regresi Linier</title>
+<title>Tugas UAS Regression Models</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -2722,8 +2722,7 @@ border-radius: 0px;
 
 
 
-<h1 class="title toc-ignore">Deskripsi Aplikasi Prediksi Regresi
-Linier</h1>
+<h1 class="title toc-ignore">Tugas UAS Regression Models</h1>
 <h4 class="author">Rahmat Riansyah - Rekayasa Perangkat Lunak</h4>
 <h4 class="date">2025-07-11</h4>
 
@@ -2735,136 +2734,157 @@ body{
 text-align: justify}
 </style>
 <hr style="border: 1px solid #007bff; margin: 20px 0;" />
-<div id="nama-mahasiswa" class="section level2">
-<h2>Nama Mahasiswa</h2>
-<ul>
-<li><strong>Nama</strong>: Rahmat Riansyah</li>
-<li><strong>NIM</strong>: A3202300029</li>
-<li><strong>Program Studi</strong>: Rekayasa Perangkat Lunak</li>
-<li><strong>Mata Kuliah</strong>: Regression Models</li>
-</ul>
-</div>
-<div id="judul-aplikasi" class="section level2">
-<h2>Judul Aplikasi</h2>
-<p><strong>Aplikasi Prediksi Variabel Y Berdasarkan Variabel X dengan
-Regresi Linier</strong></p>
-</div>
 <div id="tujuan-aplikasi" class="section level2">
 <h2>🎯 Tujuan Aplikasi</h2>
-<p>Aplikasi ini dirancang untuk membantu pengguna dalam menganalisis
-hubungan antar variabel menggunakan <strong>regresi linier
-sederhana</strong>, berbasis antarmuka web menggunakan <strong>R
-Shiny</strong>. Aplikasi ini bersifat <strong>generik</strong> dan dapat
-digunakan untuk berbagai dataset berbeda.</p>
+<p>Aplikasi ini dibangun menggunakan R Shiny untuk memudahkan pengguna
+dalam:</p>
+<ul>
+<li>Melatih model regresi linier sederhana</li>
+<li>Mengeksplorasi hubungan antara variabel</li>
+<li>Memprediksi data baru</li>
+<li>Menyimpan dan memuat model yang telah dilatih</li>
+</ul>
+<p>Aplikasi dirancang fleksibel dan dapat bekerja dengan berbagai
+dataset berekstensi <code>.csv</code>.</p>
 <hr />
 </div>
 <div id="fitur-utama-aplikasi" class="section level2">
 <h2>🧩 Fitur Utama Aplikasi</h2>
-<p>Aplikasi memiliki enam tab utama:</p>
 <div id="data-training" class="section level3">
-<h3>1. 📊 <strong>Data Training</strong></h3>
-<ul>
-<li>Menampilkan isi data training yang diunggah</li>
-<li>Menyediakan tampilan tabel dan ringkasan data</li>
-</ul>
+<h3>1. 📊 Data Training</h3>
+<p>Menampilkan tabel data training yang telah diunggah oleh
+pengguna.</p>
 </div>
 <div id="korelasi" class="section level3">
-<h3>2. 📉 <strong>Korelasi</strong></h3>
-<ul>
-<li>Menampilkan matriks korelasi antar variabel numerik</li>
-<li>Disajikan dalam bentuk heatmap menggunakan
-<code>corrplot</code></li>
-</ul>
+<h3>2. 📉 Korelasi</h3>
+<p>Menampilkan <strong>matriks korelasi antar variabel numerik</strong>
+dalam bentuk visual (<code>corrplot</code>), sehingga pengguna dapat
+melihat seberapa kuat hubungan antar variabel.</p>
 </div>
 <div id="eksplorasi" class="section level3">
-<h3>3. 🔍 <strong>Eksplorasi</strong></h3>
+<h3>3. 🔍 Eksplorasi</h3>
+<p>Menyediakan <strong>scatter plot interaktif</strong> antara satu
+prediktor (X) dan target (Y), dengan gradasi warna:</p>
 <ul>
-<li>Menampilkan <strong>scatter plot</strong> dari variabel X terhadap
-Y</li>
-<li>Gradasi warna mencerminkan intensitas nilai target:
-<ul>
-<li>Biru = nilai target rendah</li>
-<li>Keunguan = sedang</li>
-<li>Merah = tinggi</li>
-</ul></li>
+<li>Biru = nilai Y rendah</li>
+<li>Ungu = sedang</li>
+<li>Merah = nilai Y tinggi</li>
 </ul>
 </div>
 <div id="model" class="section level3">
-<h3>4. 📈 <strong>Model</strong></h3>
+<h3>4. 📈 Model</h3>
+<p>Menampilkan hasil dari <code>summary(lm())</code> berupa:</p>
 <ul>
-<li>Pengguna memilih satu variabel target (Y) dan satu prediktor
-(X)</li>
-<li>Model regresi linier dibentuk menggunakan <code>lm()</code></li>
-<li>Tampilkan ringkasan model (<code>summary</code>)</li>
+<li>Koefisien model</li>
+<li>Nilai R-squared</li>
+<li>Signifikansi model (p-value)</li>
 </ul>
 </div>
-<div id="data-testing-prediksi" class="section level3">
-<h3>5. 🧪 <strong>Data Testing &amp; Prediksi</strong></h3>
-<ul>
-<li>Data testing diunggah pengguna</li>
-<li>Model digunakan untuk melakukan prediksi nilai Y</li>
-<li>Hasil ditampilkan dalam bentuk tabel</li>
-</ul>
+<div id="prediksi" class="section level3">
+<h3>5. 🧪 Prediksi</h3>
+<p>Setelah model dilatih, pengguna dapat mengunggah <strong>data
+testing</strong> untuk mendapatkan hasil prediksi. Hasil ditampilkan
+dalam bentuk tabel.</p>
 </div>
 <div id="plot-prediksi" class="section level3">
-<h3>6. 📉 <strong>Plot Prediksi</strong></h3>
-<ul>
-<li>Plot aktual vs prediksi</li>
-<li>Warna menunjukkan besarnya nilai prediksi:
-<ul>
-<li>Biru = rendah</li>
-<li>Merah = tinggi</li>
-</ul></li>
-</ul>
+<h3>6. 📉 Plot Prediksi</h3>
+<p>Menampilkan plot <strong>nilai aktual vs nilai prediksi</strong>,
+dilengkapi dengan garis referensi (garis x=y) dan gradasi warna
+berdasarkan nilai prediksi.</p>
+</div>
+<div id="simpanmuat-model" class="section level3">
+<h3>7. 💾 Simpan/Muat Model</h3>
+<p>Pengguna dapat menyimpan model ke file <code>.rds</code> dan memuat
+ulang model tersebut untuk digunakan kembali tanpa perlu melatih
+ulang.</p>
 <hr />
 </div>
 </div>
 <div id="alur-kerja-aplikasi" class="section level2">
 <h2>🔁 Alur Kerja Aplikasi</h2>
 <ol style="list-style-type: decimal">
-<li>Upload file <code>.csv</code> sebagai data
-<strong>training</strong></li>
-<li>Pilih variabel <strong>Y (target)</strong> dan <strong>X
-(prediktor)</strong></li>
-<li>Klik tombol <strong>Latih Model</strong></li>
-<li>Upload data <strong>testing</strong></li>
-<li>Klik tombol <strong>Prediksi</strong></li>
-<li>Hasil prediksi dan visualisasi ditampilkan</li>
-<li>Pengguna dapat <strong>simpan model</strong> atau <strong>muat
-model</strong> yang telah dilatih sebelumnya</li>
+<li>Upload data training (<code>.csv</code>)</li>
+<li>Pilih variabel target (Y) dan prediktor (X)</li>
+<li>Klik <strong>Latih Model</strong></li>
+<li>Eksplorasi data training (korelasi &amp; scatter plot)</li>
+<li>Upload data testing (<code>.csv</code>)</li>
+<li>Klik <strong>Prediksi Data Testing</strong></li>
+<li>Lihat hasil prediksi &amp; visualisasi</li>
+<li>Simpan atau muat model jika perlu</li>
 </ol>
 <hr />
 </div>
-<div id="dataset" class="section level2">
-<h2>🗂️ Dataset</h2>
+<div id="cara-membaca-ringkasan-model-tab-model" class="section level2">
+<h2>📖 Cara Membaca Ringkasan Model (Tab Model)</h2>
+<p>Berikut contoh output:</p>
+<pre><code>Call:
+lm(formula = Heating_Oil ~ Temperature, data = train)
+
+Residuals:
+     Min       1Q   Median       3Q      Max
+-1.23     -0.56   -0.02      0.52     1.80
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     5.321     0.243     21.9   &lt;2e-16 ***
+Temperature    -0.152     0.018     -8.3   3.5e-12 ***
+
+Residual standard error: 0.68
+Multiple R-squared:  0.468  
+Adjusted R-squared:  0.460
+F-statistic: 69.2  on 1 and 98 DF,  p-value: 3.5e-12</code></pre>
+<div id="penjelasan-baris-per-baris" class="section level3">
+<h3>📌 Penjelasan Baris per Baris:</h3>
 <ul>
-<li><strong>Dataset A</strong>: HeatingOil.csv<br />
-</li>
-<li><strong>Dataset B</strong>: mtcars (bawaan R)</li>
+<li><p><strong>Estimate</strong>: Koefisien regresi.</p>
+<ul>
+<li>Misalnya: <code>Temperature = -0.152</code> → artinya setiap
+kenaikan 1 derajat suhu, prediksi Heating_Oil turun 0.152 unit.</li>
+</ul></li>
+<li><p><strong>Std. Error</strong>: Standar error dari estimasi
+koefisien (semakin kecil = semakin presisi)</p></li>
+<li><p><strong>t value &amp; Pr(&gt;|t|)</strong>:</p>
+<ul>
+<li>t-test dan p-value untuk menguji signifikansi masing-masing
+variabel.</li>
+<li>P-value &lt; 0.05 artinya prediktor <strong>berpengaruh
+signifikan</strong> terhadap target.</li>
+</ul></li>
+<li><p><strong>Residuals</strong>: Ringkasan selisih antara nilai aktual
+dan prediksi.</p>
+<ul>
+<li>Median mendekati 0 berarti model tidak bias.</li>
+</ul></li>
+<li><p><strong>R-squared</strong>: Seberapa besar variasi dalam target
+(Y) yang bisa dijelaskan oleh X.</p>
+<ul>
+<li>Nilai antara 0 dan 1 (semakin tinggi = semakin baik)</li>
+</ul></li>
+<li><p><strong>F-statistic</strong>: Menguji apakah model secara
+keseluruhan bermakna.</p></li>
 </ul>
-<p>Keduanya telah dipisahkan ke dalam: - <code>*_train.csv</code> -
-<code>*_test.csv</code></p>
 <hr />
 </div>
-<div id="fungsionalitas-tambahan" class="section level2">
-<h2>💾 Fungsionalitas Tambahan</h2>
+</div>
+<div id="catatan-tambahan" class="section level2">
+<h2>🧾 Catatan Tambahan</h2>
 <ul>
-<li>Mendukung berbagai dataset dengan struktur kolom yang berbeda</li>
-<li>Menyimpan model (<code>saveRDS</code>) dan memuat kembali model
-(<code>readRDS</code>)</li>
-<li>Menampilkan notifikasi bila model berhasil dimuat</li>
-<li>Validasi input dilakukan dengan <code>req()</code> untuk mencegah
-kesalahan</li>
+<li>File <code>.rds</code> berisi model yang disimpan bisa digunakan
+ulang di masa depan</li>
+<li>Data training dan testing harus memiliki struktur kolom yang sama
+(khususnya kolom X yang digunakan)</li>
+<li>Semua proses prediksi dan pelatihan dilakukan menggunakan
+<code>lm()</code> dan <code>predict()</code></li>
 </ul>
 <hr />
 </div>
 <div id="penutup" class="section level2">
-<h2>📝 Penutup</h2>
-<p>Aplikasi ini diharapkan mempermudah pengguna dalam: - Melatih model
-prediktif - Mengeksplorasi hubungan antar variabel - Memprediksi data
-baru menggunakan model linier</p>
-<p>Aplikasi dikembangkan dengan prinsip fleksibilitas dan kemudahan
-penggunaan oleh pengguna non-programmer.</p>
+<h2>✅ Penutup</h2>
+<p>Aplikasi ini bermanfaat untuk pelatihan model prediksi sederhana dan
+dapat dikembangkan lebih lanjut untuk regresi berganda, validasi silang,
+atau machine learning. Cocok digunakan oleh mahasiswa, peneliti, atau
+praktisi data yang ingin melihat hubungan antar variabel secara
+interaktif.</p>
 </div>
 
 

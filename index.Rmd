@@ -25,103 +25,129 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## Nama Mahasiswa
-
-- **Nama**: Rahmat Riansyah
-- **NIM**: A3202300029
-- **Program Studi**: Rekayasa Perangkat Lunak
-- **Mata Kuliah**: Regression Models
-
-## Judul Aplikasi
-
-**Aplikasi Prediksi Variabel Y Berdasarkan Variabel X dengan Regresi Linier**
-
----
-title: "Deskripsi Aplikasi Prediksi Regresi Linier"
-output: html_document
----
-
 ## 🎯 Tujuan Aplikasi
 
-Aplikasi ini dirancang untuk membantu pengguna dalam menganalisis hubungan antar variabel menggunakan **regresi linier sederhana**, berbasis antarmuka web menggunakan **R Shiny**. Aplikasi ini bersifat **generik** dan dapat digunakan untuk berbagai dataset berbeda.
+Aplikasi ini dibangun menggunakan R Shiny untuk memudahkan pengguna dalam:
+
+* Melatih model regresi linier sederhana
+* Mengeksplorasi hubungan antara variabel
+* Memprediksi data baru
+* Menyimpan dan memuat model yang telah dilatih
+
+Aplikasi dirancang fleksibel dan dapat bekerja dengan berbagai dataset berekstensi `.csv`.
 
 ---
 
 ## 🧩 Fitur Utama Aplikasi
 
-Aplikasi memiliki enam tab utama:
+### 1. 📊 Data Training
 
-### 1. 📊 **Data Training**
-- Menampilkan isi data training yang diunggah
-- Menyediakan tampilan tabel dan ringkasan data
+Menampilkan tabel data training yang telah diunggah oleh pengguna.
 
-### 2. 📉 **Korelasi**
-- Menampilkan matriks korelasi antar variabel numerik
-- Disajikan dalam bentuk heatmap menggunakan `corrplot`
+### 2. 📉 Korelasi
 
-### 3. 🔍 **Eksplorasi**
-- Menampilkan **scatter plot** dari variabel X terhadap Y
-- Gradasi warna mencerminkan intensitas nilai target:
-  - Biru = nilai target rendah
-  - Keunguan = sedang
-  - Merah = tinggi
+Menampilkan **matriks korelasi antar variabel numerik** dalam bentuk visual (`corrplot`), sehingga pengguna dapat melihat seberapa kuat hubungan antar variabel.
 
-### 4. 📈 **Model**
-- Pengguna memilih satu variabel target (Y) dan satu prediktor (X)
-- Model regresi linier dibentuk menggunakan `lm()`
-- Tampilkan ringkasan model (`summary`)
+### 3. 🔍 Eksplorasi
 
-### 5. 🧪 **Data Testing & Prediksi**
-- Data testing diunggah pengguna
-- Model digunakan untuk melakukan prediksi nilai Y
-- Hasil ditampilkan dalam bentuk tabel
+Menyediakan **scatter plot interaktif** antara satu prediktor (X) dan target (Y), dengan gradasi warna:
 
-### 6. 📉 **Plot Prediksi**
-- Plot aktual vs prediksi
-- Warna menunjukkan besarnya nilai prediksi:
-  - Biru = rendah
-  - Merah = tinggi
+* Biru = nilai Y rendah
+* Ungu = sedang
+* Merah = nilai Y tinggi
+
+### 4. 📈 Model
+
+Menampilkan hasil dari `summary(lm())` berupa:
+
+* Koefisien model
+* Nilai R-squared
+* Signifikansi model (p-value)
+
+### 5. 🧪 Prediksi
+
+Setelah model dilatih, pengguna dapat mengunggah **data testing** untuk mendapatkan hasil prediksi. Hasil ditampilkan dalam bentuk tabel.
+
+### 6. 📉 Plot Prediksi
+
+Menampilkan plot **nilai aktual vs nilai prediksi**, dilengkapi dengan garis referensi (garis x=y) dan gradasi warna berdasarkan nilai prediksi.
+
+### 7. 💾 Simpan/Muat Model
+
+Pengguna dapat menyimpan model ke file `.rds` dan memuat ulang model tersebut untuk digunakan kembali tanpa perlu melatih ulang.
 
 ---
 
 ## 🔁 Alur Kerja Aplikasi
 
-1. Upload file `.csv` sebagai data **training**
-2. Pilih variabel **Y (target)** dan **X (prediktor)**
-3. Klik tombol **Latih Model**
-4. Upload data **testing**
-5. Klik tombol **Prediksi**
-6. Hasil prediksi dan visualisasi ditampilkan
-7. Pengguna dapat **simpan model** atau **muat model** yang telah dilatih sebelumnya
+1. Upload data training (`.csv`)
+2. Pilih variabel target (Y) dan prediktor (X)
+3. Klik **Latih Model**
+4. Eksplorasi data training (korelasi & scatter plot)
+5. Upload data testing (`.csv`)
+6. Klik **Prediksi Data Testing**
+7. Lihat hasil prediksi & visualisasi
+8. Simpan atau muat model jika perlu
 
 ---
 
-## 🗂️ Dataset
+## 📖 Cara Membaca Ringkasan Model (Tab Model)
 
-- **Dataset A**: HeatingOil.csv  
-- **Dataset B**: mtcars (bawaan R)
+Berikut contoh output:
 
-Keduanya telah dipisahkan ke dalam:
-- `*_train.csv`
-- `*_test.csv`
+```
+Call:
+lm(formula = Heating_Oil ~ Temperature, data = train)
+
+Residuals:
+     Min       1Q   Median       3Q      Max
+-1.23     -0.56   -0.02      0.52     1.80
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)     5.321     0.243     21.9   <2e-16 ***
+Temperature    -0.152     0.018     -8.3   3.5e-12 ***
+
+Residual standard error: 0.68
+Multiple R-squared:  0.468  
+Adjusted R-squared:  0.460
+F-statistic: 69.2  on 1 and 98 DF,  p-value: 3.5e-12
+```
+
+### 📌 Penjelasan Baris per Baris:
+
+* **Estimate**: Koefisien regresi.
+
+  * Misalnya: `Temperature = -0.152` → artinya setiap kenaikan 1 derajat suhu, prediksi Heating\_Oil turun 0.152 unit.
+
+* **Std. Error**: Standar error dari estimasi koefisien (semakin kecil = semakin presisi)
+
+* **t value & Pr(>|t|)**:
+
+  * t-test dan p-value untuk menguji signifikansi masing-masing variabel.
+  * P-value < 0.05 artinya prediktor **berpengaruh signifikan** terhadap target.
+
+* **Residuals**: Ringkasan selisih antara nilai aktual dan prediksi.
+
+  * Median mendekati 0 berarti model tidak bias.
+
+* **R-squared**: Seberapa besar variasi dalam target (Y) yang bisa dijelaskan oleh X.
+
+  * Nilai antara 0 dan 1 (semakin tinggi = semakin baik)
+
+* **F-statistic**: Menguji apakah model secara keseluruhan bermakna.
 
 ---
 
-## 💾 Fungsionalitas Tambahan
+## 🧾 Catatan Tambahan
 
-- Mendukung berbagai dataset dengan struktur kolom yang berbeda
-- Menyimpan model (`saveRDS`) dan memuat kembali model (`readRDS`)
-- Menampilkan notifikasi bila model berhasil dimuat
-- Validasi input dilakukan dengan `req()` untuk mencegah kesalahan
+* File `.rds` berisi model yang disimpan bisa digunakan ulang di masa depan
+* Data training dan testing harus memiliki struktur kolom yang sama (khususnya kolom X yang digunakan)
+* Semua proses prediksi dan pelatihan dilakukan menggunakan `lm()` dan `predict()`
 
 ---
 
-## 📝 Penutup
+## ✅ Penutup
 
-Aplikasi ini diharapkan mempermudah pengguna dalam:
-- Melatih model prediktif
-- Mengeksplorasi hubungan antar variabel
-- Memprediksi data baru menggunakan model linier
-
-Aplikasi dikembangkan dengan prinsip fleksibilitas dan kemudahan penggunaan oleh pengguna non-programmer.
-
+Aplikasi ini bermanfaat untuk pelatihan model prediksi sederhana dan dapat dikembangkan lebih lanjut untuk regresi berganda, validasi silang, atau machine learning.
+Cocok digunakan oleh mahasiswa, peneliti, atau praktisi data yang ingin melihat hubungan antar variabel secara interaktif.
