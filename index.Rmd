@@ -63,7 +63,7 @@ Aplikasi memiliki enam tab utama:
 - Menampilkan **scatter plot** dari variabel X terhadap Y
 - Gradasi warna mencerminkan intensitas nilai target:
   - Biru = nilai target rendah
-  - Kuning = sedang
+  - Keunguan = sedang
   - Merah = tinggi
 
 ### 4. 📈 **Model**
