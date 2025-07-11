@@ -53,9 +53,9 @@ Tujuannya untuk membantu pengguna mengetahui hubungan antar variabel, dan memili
 
 ### 3. 🔍 Eksplorasi
 Scatter plot antar variabel:
-- Sumbu X: **Prediktor (Y)**
-- Sumbu Y: **Target (X)**
-- Warna titik: Berdasarkan nilai target (X) → biru (rendah), ungu (sedang), merah (tinggi)
+- Sumbu X: **Prediktor (X)**
+- Sumbu Y: **Target (Y)**
+- Warna titik: Berdasarkan nilai target (Y) → biru (rendah), ungu (sedang), merah (tinggi)
 - Jika memilih lebih dari satu prediktor, maka akan dibuat plot untuk setiap pasangan X ~ Y
 
 ### 4. 📈 Ringkasan Model
@@ -102,7 +102,7 @@ Menampilkan plot antara nilai aktual dan nilai prediksi:
 ## 🔁 Alur Kerja Aplikasi
 
 1. Upload data training (`.csv`)
-2. Pilih variabel target (X) dan prediktor (Y)
+2. Pilih variabel target (Y) dan prediktor (X)
 3. Klik **Latih Model**
 4. Lihat ringkasan model dan eksplorasi hubungan antar variabel
 5. (Opsional) Simpan model dalam file `.rds`
@@ -139,7 +139,7 @@ Adjusted R-squared:  0.460
 
 ## 📌 Catatan Penting
 
-- Data testing harus memiliki kolom **X (target)** agar plot prediksi dapat ditampilkan
+- Data testing harus memiliki kolom **Y (target)** agar plot prediksi dapat ditampilkan
 - Aplikasi hanya mendukung **regresi linier sederhana** (1 prediktor saja)
 - Plot eksplorasi dan prediksi menggunakan skema warna profesional
 - File `.rds` model dapat digunakan ulang lintas sesi dan komputer

@@ -2768,8 +2768,8 @@ dan memilih prediktor yang paling relevan.</p>
 <div id="eksplorasi" class="section level3">
 <h3>3. 🔍 Eksplorasi</h3>
 <p>Scatter plot antar variabel: - Sumbu X: <strong>Prediktor
-(Y)</strong> - Sumbu Y: <strong>Target (X)</strong> - Warna titik:
-Berdasarkan nilai target (X) → biru (rendah), ungu (sedang), merah
+(X)</strong> - Sumbu Y: <strong>Target (Y)</strong> - Warna titik:
+Berdasarkan nilai target (Y) → biru (rendah), ungu (sedang), merah
 (tinggi) - Jika memilih lebih dari satu prediktor, maka akan dibuat plot
 untuk setiap pasangan X ~ Y</p>
 </div>
@@ -2823,7 +2823,7 @@ semakin dekat ke garis, semakin akurat prediksi</p>
 <h2>🔁 Alur Kerja Aplikasi</h2>
 <ol style="list-style-type: decimal">
 <li>Upload data training (<code>.csv</code>)</li>
-<li>Pilih variabel target (X) dan prediktor (Y)</li>
+<li>Pilih variabel target (Y) dan prediktor (X)</li>
 <li>Klik <strong>Latih Model</strong></li>
 <li>Lihat ringkasan model dan eksplorasi hubungan antar variabel</li>
 <li>(Opsional) Simpan model dalam file <code>.rds</code></li>
@@ -2856,7 +2856,7 @@ p-value &lt; 0.05 → hubungan dianggap signifikan</p>
 <div id="catatan-penting" class="section level2">
 <h2>📌 Catatan Penting</h2>
 <ul>
-<li>Data testing harus memiliki kolom <strong>X (target)</strong> agar
+<li>Data testing harus memiliki kolom <strong>Y (target)</strong> agar
 plot prediksi dapat ditampilkan</li>
 <li>Aplikasi hanya mendukung <strong>regresi linier sederhana</strong>
 (1 prediktor saja)</li>
