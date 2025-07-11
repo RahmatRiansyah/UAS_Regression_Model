@@ -2736,79 +2736,101 @@ text-align: justify}
 <hr style="border: 1px solid #007bff; margin: 20px 0;" />
 <div id="tujuan-aplikasi" class="section level2">
 <h2>🎯 Tujuan Aplikasi</h2>
-<p>Aplikasi ini dibangun menggunakan <strong>R Shiny</strong> untuk
-membantu pengguna:</p>
+<p>Aplikasi ini dikembangkan menggunakan R Shiny untuk mempermudah
+pengguna dalam:</p>
 <ul>
-<li>Melatih model <strong>regresi linier sederhana</strong> berbasis
-formula <code>Target ~ Prediktor</code></li>
-<li>Menjelajahi data melalui visualisasi korelasi dan eksplorasi scatter
-plot</li>
-<li>Memprediksi nilai target berdasarkan data testing</li>
-<li>Menyimpan dan memuat model <code>.rds</code> agar efisien digunakan
-ulang</li>
+<li>Mengunggah dan mengeksplorasi dataset training</li>
+<li>Melatih model regresi linier (sederhana atau berganda)</li>
+<li>Menyimpan dan memuat model</li>
+<li>Memprediksi data baru menggunakan model yang dilatih</li>
+<li>Menyediakan visualisasi korelasi dan prediksi</li>
 </ul>
-<p>Aplikasi dirancang fleksibel, dapat digunakan untuk berbagai dataset
-<code>.csv</code> secara interaktif.</p>
+<p>Aplikasi ini mendukung input file <code>.csv</code> dan bekerja
+secara interaktif.</p>
 <hr />
 </div>
-<div id="fitur-utama" class="section level2">
-<h2>🧩 Fitur Utama</h2>
+<div id="fitur-fitur-aplikasi" class="section level2">
+<h2>🧩 Fitur-Fitur Aplikasi</h2>
 <div id="data-preview" class="section level3">
 <h3>1. 📊 Data Preview</h3>
 <p>Menampilkan isi dataset training yang diunggah oleh pengguna dalam
-bentuk tabel interaktif.</p>
+bentuk tabel interaktif. Digunakan untuk memverifikasi struktur data
+sebelum pelatihan.</p>
 </div>
 <div id="korelasi" class="section level3">
 <h3>2. 📉 Korelasi</h3>
 <p>Menampilkan korelasi antar variabel numerik dengan: -
 <code>corrplot</code> dalam bentuk matriks visual - Dilengkapi nilai
 korelasi di dalam sel</p>
+<p>Tujuannya untuk membantu pengguna mengetahui hubungan antar variabel,
+dan memilih prediktor yang paling relevan.</p>
 </div>
 <div id="eksplorasi" class="section level3">
 <h3>3. 🔍 Eksplorasi</h3>
-<p>Scatter plot antar variabel: - Sumbu X: <strong>Variabel Y
-(Prediktor)</strong> - Sumbu Y: <strong>Variabel X (Target)</strong> -
-Warna titik: Berdasarkan nilai target (X) → biru (rendah) → ungu → merah
-(tinggi)</p>
+<p>Scatter plot antar variabel: - Sumbu X: <strong>Prediktor
+(Y)</strong> - Sumbu Y: <strong>Target (X)</strong> - Warna titik:
+Berdasarkan nilai target (X) → biru (rendah), ungu (sedang), merah
+(tinggi) - Jika memilih lebih dari satu prediktor, maka akan dibuat plot
+untuk setiap pasangan X ~ Y</p>
 </div>
 <div id="ringkasan-model" class="section level3">
 <h3>4. 📈 Ringkasan Model</h3>
 <p>Menampilkan output dari fungsi <code>summary(lm())</code>, mencakup:
-- Koefisien (intercept dan slope) - Nilai R-squared dan adjusted
-R-squared - Signifikansi model (p-value)</p>
-</div>
-<div id="prediksi" class="section level3">
-<h3>5. 🔮 Prediksi</h3>
-<p>Setelah model dilatih atau dimuat, pengguna dapat: - Upload data
-testing - Menjalankan prediksi - Melihat hasil prediksi dalam bentuk
-tabel</p>
-</div>
-<div id="plot-prediksi" class="section level3">
-<h3>6. 📉 Plot Prediksi</h3>
-<p>Plot antara nilai aktual dan nilai prediksi: - Sumbu X: Nilai aktual
-dari kolom target - Sumbu Y: Nilai prediksi hasil model - Dilengkapi
-gradasi warna berdasarkan nilai prediksi - Terdapat garis referensi (x =
-y) untuk akurasi</p>
+- Koefisien (intercept dan slope) dari setiap prediktor - Nilai
+<strong>R-squared</strong> dan <strong>Adjusted R-squared</strong> -
+Signifikansi model (p-value) dan nilai F-statistic - Residual (selisih
+aktual dan prediksi)</p>
 </div>
 <div id="simpan-muat-model" class="section level3">
-<h3>7. 💾 Simpan &amp; Muat Model</h3>
-<p>Model regresi dapat disimpan dalam file <code>.rds</code> dan dimuat
-ulang tanpa perlu retraining.</p>
-<hr />
+<h3>5. 💾 Simpan &amp; Muat Model</h3>
+<p>Model regresi dapat disimpan dalam file <code>.rds</code> dengan
+tombol <strong>Simpan Model</strong>, lalu dimuat kembali menggunakan
+tombol <strong>Muat Model</strong>.</p>
+<p>Fitur ini memungkinkan pengguna tidak perlu melatih ulang model jika
+sudah tersedia model sebelumnya.</p>
+<p>Contoh: Setelah melatih model regresi menggunakan data training,
+pengguna dapat menyimpan model dan menggunakannya lagi di masa depan
+tanpa mengulang proses pelatihan.</p>
+</div>
+<div id="prediksi" class="section level3">
+<h3>6. 🔮 Prediksi</h3>
+<p>Setelah model dilatih atau dimuat, pengguna dapat: - Upload data
+testing (struktur kolom harus sama dengan data training) - Menjalankan
+prediksi dengan menekan tombol <strong>Prediksi</strong> - Melihat hasil
+prediksi dalam bentuk tabel interaktif</p>
+<p>Contoh: Jika data testing memiliki kolom <code>Temperature</code> dan
+<code>Insulation</code>, serta model sebelumnya menggunakan dua variabel
+tersebut sebagai prediktor, maka hasil prediksi untuk
+<code>Heating_Oil</code> akan muncul di kolom “Prediksi”.</p>
+</div>
+<div id="plot-prediksi" class="section level3">
+<h3>7. 📉 Plot Prediksi</h3>
+<p>Menampilkan plot antara nilai aktual dan nilai prediksi: - Sumbu X:
+Nilai aktual dari kolom target (jika tersedia di data testing) - Sumbu
+Y: Nilai prediksi hasil model - Dilengkapi gradasi warna berdasarkan
+nilai prediksi - Terdapat garis referensi (x = y) → semakin dekat ke
+garis, semakin akurat prediksi</p>
+<p>Contoh: Jika target adalah <code>Heating_Oil</code>, maka titik
+prediksi akan diplot melawan nilai aktual, dengan gradasi biru ke merah
+dan garis ideal y = x. Menampilkan plot antara nilai aktual dan nilai
+prediksi: - Sumbu X: Nilai aktual dari kolom target (jika tersedia di
+data testing) - Sumbu Y: Nilai prediksi hasil model - Dilengkapi gradasi
+warna berdasarkan nilai prediksi - Terdapat garis referensi (x = y) →
+semakin dekat ke garis, semakin akurat prediksi</p>
 </div>
 </div>
-<div id="alur-penggunaan-aplikasi" class="section level2">
-<h2>🔁 Alur Penggunaan Aplikasi</h2>
+<div id="alur-kerja-aplikasi" class="section level2">
+<h2>🔁 Alur Kerja Aplikasi</h2>
 <ol style="list-style-type: decimal">
-<li>Upload data training (.csv)</li>
-<li>Pilih <strong>variabel X sebagai Target</strong>, dan
-<strong>variabel Y sebagai Prediktor</strong></li>
-<li>Klik tombol <strong>Latih Model</strong></li>
-<li>Simpan model bila diperlukan (opsional)</li>
-<li>Atau muat model <code>.rds</code> jika sudah tersedia</li>
-<li>Upload data testing (.csv)</li>
-<li>Klik <strong>Prediksi</strong> untuk mendapatkan hasil</li>
-<li>Lihat hasil prediksi dan visualisasinya</li>
+<li>Upload data training (<code>.csv</code>)</li>
+<li>Pilih variabel target (X) dan prediktor (Y)</li>
+<li>Klik <strong>Latih Model</strong></li>
+<li>Lihat ringkasan model dan eksplorasi hubungan antar variabel</li>
+<li>(Opsional) Simpan model dalam file <code>.rds</code></li>
+<li>(Opsional) Muat model yang telah disimpan sebelumnya</li>
+<li>Upload data testing (<code>.csv</code>)</li>
+<li>Klik <strong>Prediksi</strong></li>
+<li>Tampilkan hasil prediksi dan plot evaluasi</li>
 </ol>
 <hr />
 </div>

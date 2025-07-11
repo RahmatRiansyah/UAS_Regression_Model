@@ -58,13 +58,14 @@ server <- function(input, output, session) {
     req(data_train())
     tagList(
       selectInput("x_var", "Pilih Variabel X (Target)", choices = names(data_train())),
-      selectInput("y_var", "Pilih Variabel Y (Prediktor)", choices = names(data_train()))
+      selectInput("y_var", "Pilih Variabel Y (Prediktor)", choices = names(data_train()), multiple = TRUE)
     )
   })
   
   observeEvent(input$train_model, {
     req(data_train(), input$x_var, input$y_var)
-    formula <- as.formula(paste(input$x_var, "~", input$y_var))
+    predictors <- paste(input$y_var, collapse = " + ")
+    formula <- as.formula(paste(input$x_var, "~", predictors))
     model <- lm(formula, data = data_train())
     model_lm(model)
   })
@@ -85,12 +86,13 @@ server <- function(input, output, session) {
   
   output$exploratory_plot <- renderPlot({
     req(data_train(), input$x_var, input$y_var)
-    ggplot(data_train(), aes_string(x = input$y_var, y = input$x_var)) +
+    y_first <- input$y_var[1]
+    ggplot(data_train(), aes_string(x = y_first, y = input$x_var)) +
       geom_point(aes_string(color = input$x_var), size = 3) +
       scale_color_gradient2(low = "#1f77b4", mid = "#9b59b6", high = "#e74c3c",
                             midpoint = mean(data_train()[[input$x_var]], na.rm = TRUE)) +
       theme_minimal() +
-      labs(title = paste("Plot", input$x_var, "vs", input$y_var), color = input$x_var)
+      labs(title = paste("Plot", input$x_var, "vs", y_first), color = input$x_var)
   })
   
   output$model_summary <- renderPrint({
