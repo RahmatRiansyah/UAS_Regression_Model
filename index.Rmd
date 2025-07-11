@@ -24,130 +24,104 @@ text-align: justify}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
 ## 🎯 Tujuan Aplikasi
 
-Aplikasi ini dibangun menggunakan R Shiny untuk memudahkan pengguna dalam:
+Aplikasi ini dibangun menggunakan **R Shiny** untuk membantu pengguna:
 
-* Melatih model regresi linier sederhana
-* Mengeksplorasi hubungan antara variabel
-* Memprediksi data baru
-* Menyimpan dan memuat model yang telah dilatih
+- Melatih model **regresi linier sederhana** berbasis formula `Target ~ Prediktor`
+- Menjelajahi data melalui visualisasi korelasi dan eksplorasi scatter plot
+- Memprediksi nilai target berdasarkan data testing
+- Menyimpan dan memuat model `.rds` agar efisien digunakan ulang
 
-Aplikasi dirancang fleksibel dan dapat bekerja dengan berbagai dataset berekstensi `.csv`.
+Aplikasi dirancang fleksibel, dapat digunakan untuk berbagai dataset `.csv` secara interaktif.
 
 ---
 
-## 🧩 Fitur Utama Aplikasi
+## 🧩 Fitur Utama
 
-### 1. 📊 Data Training
-
-Menampilkan tabel data training yang telah diunggah oleh pengguna.
+### 1. 📊 Data Preview
+Menampilkan isi dataset training yang diunggah oleh pengguna dalam bentuk tabel interaktif.
 
 ### 2. 📉 Korelasi
-
-Menampilkan **matriks korelasi antar variabel numerik** dalam bentuk visual (`corrplot`), sehingga pengguna dapat melihat seberapa kuat hubungan antar variabel.
+Menampilkan korelasi antar variabel numerik dengan:
+- `corrplot` dalam bentuk matriks visual
+- Dilengkapi nilai korelasi di dalam sel
 
 ### 3. 🔍 Eksplorasi
+Scatter plot antar variabel:
+- Sumbu X: **Variabel Y (Prediktor)**
+- Sumbu Y: **Variabel X (Target)**
+- Warna titik: Berdasarkan nilai target (X) → biru (rendah) → ungu → merah (tinggi)
 
-Menyediakan **scatter plot interaktif** antara satu prediktor (X) dan target (Y), dengan gradasi warna:
+### 4. 📈 Ringkasan Model
+Menampilkan output dari fungsi `summary(lm())`, mencakup:
+- Koefisien (intercept dan slope)
+- Nilai R-squared dan adjusted R-squared
+- Signifikansi model (p-value)
 
-* Biru = nilai Y rendah
-* Ungu = sedang
-* Merah = nilai Y tinggi
-
-### 4. 📈 Model
-
-Menampilkan hasil dari `summary(lm())` berupa:
-
-* Koefisien model
-* Nilai R-squared
-* Signifikansi model (p-value)
-
-### 5. 🧪 Prediksi
-
-Setelah model dilatih, pengguna dapat mengunggah **data testing** untuk mendapatkan hasil prediksi. Hasil ditampilkan dalam bentuk tabel.
+### 5. 🔮 Prediksi
+Setelah model dilatih atau dimuat, pengguna dapat:
+- Upload data testing
+- Menjalankan prediksi
+- Melihat hasil prediksi dalam bentuk tabel
 
 ### 6. 📉 Plot Prediksi
+Plot antara nilai aktual dan nilai prediksi:
+- Sumbu X: Nilai aktual dari kolom target
+- Sumbu Y: Nilai prediksi hasil model
+- Dilengkapi gradasi warna berdasarkan nilai prediksi
+- Terdapat garis referensi (x = y) untuk akurasi
 
-Menampilkan plot **nilai aktual vs nilai prediksi**, dilengkapi dengan garis referensi (garis x=y) dan gradasi warna berdasarkan nilai prediksi.
-
-### 7. 💾 Simpan/Muat Model
-
-Pengguna dapat menyimpan model ke file `.rds` dan memuat ulang model tersebut untuk digunakan kembali tanpa perlu melatih ulang.
-
----
-
-## 🔁 Alur Kerja Aplikasi
-
-1. Upload data training (`.csv`)
-2. Pilih variabel target (Y) dan prediktor (X)
-3. Klik **Latih Model**
-4. Eksplorasi data training (korelasi & scatter plot)
-5. Upload data testing (`.csv`)
-6. Klik **Prediksi Data Testing**
-7. Lihat hasil prediksi & visualisasi
-8. Simpan atau muat model jika perlu
+### 7. 💾 Simpan & Muat Model
+Model regresi dapat disimpan dalam file `.rds` dan dimuat ulang tanpa perlu retraining.
 
 ---
 
-## 📖 Cara Membaca Ringkasan Model (Tab Model)
+## 🔁 Alur Penggunaan Aplikasi
 
-Berikut contoh output:
+1. Upload data training (.csv)
+2. Pilih **variabel X sebagai Target**, dan **variabel Y sebagai Prediktor**
+3. Klik tombol **Latih Model**
+4. Klik tombol **Simpan Model** jika ingin menyimpan model
+5. Atau klik **Muat Model (.rds)** jika sudah pernah menyimpan sebelumnya
+6. Upload data testing (.csv)
+7. Klik **Prediksi** untuk menjalankan proses prediksi
+8. Lihat hasil prediksi dan visualisasinya
+
+---
+
+## 📖 Contoh Ringkasan Model
+Contoh output dari `summary(lm())`:
 
 ```
 Call:
 lm(formula = Heating_Oil ~ Temperature, data = train)
 
-Residuals:
-     Min       1Q   Median       3Q      Max
--1.23     -0.56   -0.02      0.52     1.80
-
 Coefficients:
-              Estimate Std. Error t value Pr(>|t|)    
-(Intercept)     5.321     0.243     21.9   <2e-16 ***
-Temperature    -0.152     0.018     -8.3   3.5e-12 ***
+(Intercept)     5.321
+Temperature    -0.152
 
-Residual standard error: 0.68
-Multiple R-squared:  0.468  
+Multiple R-squared:  0.468
 Adjusted R-squared:  0.460
-F-statistic: 69.2  on 1 and 98 DF,  p-value: 3.5e-12
 ```
 
-### 📌 Penjelasan Baris per Baris:
-
-* **Estimate**: Koefisien regresi.
-
-  * Misalnya: `Temperature = -0.152` → artinya setiap kenaikan 1 derajat suhu, prediksi Heating\_Oil turun 0.152 unit.
-
-* **Std. Error**: Standar error dari estimasi koefisien (semakin kecil = semakin presisi)
-
-* **t value & Pr(>|t|)**:
-
-  * t-test dan p-value untuk menguji signifikansi masing-masing variabel.
-  * P-value < 0.05 artinya prediktor **berpengaruh signifikan** terhadap target.
-
-* **Residuals**: Ringkasan selisih antara nilai aktual dan prediksi.
-
-  * Median mendekati 0 berarti model tidak bias.
-
-* **R-squared**: Seberapa besar variasi dalam target (Y) yang bisa dijelaskan oleh X.
-
-  * Nilai antara 0 dan 1 (semakin tinggi = semakin baik)
-
-* **F-statistic**: Menguji apakah model secara keseluruhan bermakna.
+**Interpretasi:**
+- Intercept = 5.321 → nilai prediksi saat prediktor = 0
+- Slope (koefisien Temperature) = -0.152 → setiap kenaikan 1 unit Temperature, Heating_Oil turun 0.152
+- R-squared = 46.8% → variabel prediktor menjelaskan 46.8% variasi pada target
+- Jika p-value < 0.05 → hubungan dianggap signifikan
 
 ---
 
-## 🧾 Catatan Tambahan
+## 📌 Catatan Penting
 
-* File `.rds` berisi model yang disimpan bisa digunakan ulang di masa depan
-* Data training dan testing harus memiliki struktur kolom yang sama (khususnya kolom X yang digunakan)
-* Semua proses prediksi dan pelatihan dilakukan menggunakan `lm()` dan `predict()`
+- Data testing harus memiliki kolom **X (target)** agar plot prediksi dapat ditampilkan
+- Aplikasi hanya mendukung **regresi linier sederhana** (1 prediktor saja)
+- Plot eksplorasi dan prediksi menggunakan skema warna profesional
+- File `.rds` model dapat digunakan ulang lintas sesi dan komputer
 
 ---
 
 ## ✅ Penutup
 
-Aplikasi ini bermanfaat untuk pelatihan model prediksi sederhana dan dapat dikembangkan lebih lanjut untuk regresi berganda, validasi silang, atau machine learning.
-Cocok digunakan oleh mahasiswa, peneliti, atau praktisi data yang ingin melihat hubungan antar variabel secara interaktif.
+Aplikasi ini dirancang sebagai alat bantu belajar dan eksplorasi bagi mahasiswa, dosen, dan praktisi pemula dalam memahami dan menerapkan **regresi linier sederhana** secara interaktif. Fitur visualisasi dan pemrosesan otomatis membuatnya cocok digunakan untuk tugas akhir, presentasi, maupun proyek analisis data ringan.

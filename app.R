@@ -1,5 +1,4 @@
 library(shiny)
-library(caret)
 library(ggplot2)
 library(DT)
 library(shinythemes)
@@ -7,145 +6,139 @@ library(corrplot)
 
 ui <- fluidPage(
   theme = shinytheme("flatly"),
-
-  titlePanel("✨ Aplikasi Prediksi Regresi Linier ✨"),
-
+  titlePanel("📈 Aplikasi Prediksi Regresi Linier - UAS"),
+  
   sidebarLayout(
     sidebarPanel(
       tags$h4("Langkah 1: Upload Data Training"),
-      fileInput("train_file", "Upload Data Training (.csv)", accept = ".csv"),
-
-      uiOutput("var_select_ui"),
-
+      fileInput("train_file", "Upload File CSV", accept = ".csv"),
+      
+      uiOutput("var_select"),
       actionButton("train_model", "Latih Model", class = "btn btn-primary"),
-
-      br(), br(),
+      
       tags$hr(),
-
-      tags$h4("Langkah 2: Upload Data Testing"),
-      fileInput("test_file", "Upload Data Testing (.csv)", accept = ".csv"),
-      actionButton("predict_button", "Prediksi Data Testing", class = "btn btn-success"),
-
-      br(), br(),
-      tags$hr(),
-
-      tags$h4("Langkah 3: Simpan / Muat Model"),
+      tags$h4("Langkah 2: Simpan / Muat Model"),
       downloadButton("save_model", "💾 Simpan Model"),
-      fileInput("load_model", "📂 Muat Model (.rds)")
+      fileInput("load_model", "📂 Muat Model (.rds)"),
+      
+      tags$hr(),
+      tags$h4("Langkah 3: Upload Data Testing"),
+      fileInput("test_file", "Upload Data Testing (.csv)", accept = ".csv"),
+      actionButton("predict_button", "Prediksi", class = "btn btn-success")
     ),
-
+    
     mainPanel(
-      tabsetPanel(type = "tabs",
-        tabPanel("📊 Data Training", DTOutput("train_preview")),
+      tabsetPanel(
+        tabPanel("📊 Data Preview", DTOutput("train_table")),
         tabPanel("📉 Korelasi", plotOutput("correlation_plot")),
         tabPanel("🔍 Eksplorasi", plotOutput("exploratory_plot")),
         tabPanel("📈 Model", verbatimTextOutput("model_summary")),
-        tabPanel("🧪 Data Testing & Prediksi", DTOutput("prediction_table")),
-        tabPanel("📉 Plot", plotOutput("prediction_plot"))
+        tabPanel("🔮 Prediksi", DTOutput("prediction_table"), plotOutput("prediction_plot"))
       )
     )
   )
 )
 
 server <- function(input, output, session) {
-  train_data <- reactiveVal()
-  test_data <- reactiveVal()
+  data_train <- reactiveVal()
+  data_test <- reactiveVal()
   model_lm <- reactiveVal()
-
+  pred_result <- reactiveVal(NULL)
+  data_train <- reactiveVal()
+  data_test <- reactiveVal()
+  model_lm <- reactiveVal()
+  pred_trigger <- reactiveVal(0)
+  
   observeEvent(input$train_file, {
     df <- read.csv(input$train_file$datapath)
-    train_data(df)
-
-    updateSelectInput(session, "target_var", choices = names(df))
-    updateSelectInput(session, "predictor_var", choices = names(df))
+    data_train(df)
   })
-
-  output$var_select_ui <- renderUI({
-    req(train_data())
+  
+  output$var_select <- renderUI({
+    req(data_train())
     tagList(
-      selectInput("target_var", "Pilih Variabel Target (Y)", choices = names(train_data())),
-      selectInput("predictor_var", "Pilih Variabel Prediktor (X)", choices = names(train_data()))
+      selectInput("x_var", "Pilih Variabel X (Target)", choices = names(data_train())),
+      selectInput("y_var", "Pilih Variabel Y (Prediktor)", choices = names(data_train()))
     )
   })
-
+  
   observeEvent(input$train_model, {
-    req(train_data(), input$target_var, input$predictor_var)
-
-    formula_text <- paste(input$target_var, "~", input$predictor_var)
-    model <- lm(as.formula(formula_text), data = train_data())
+    req(data_train(), input$x_var, input$y_var)
+    formula <- as.formula(paste(input$x_var, "~", input$y_var))
+    model <- lm(formula, data = data_train())
     model_lm(model)
   })
-
-  output$train_preview <- renderDT({
-    req(train_data())
-    datatable(train_data(), options = list(pageLength = 5))
+  
+  output$train_table <- renderDT({
+    req(data_train())
+    datatable(data_train())
   })
-
+  
+  output$correlation_plot <- renderPlot({
+    req(data_train())
+    num_data <- data_train()[, sapply(data_train(), is.numeric)]
+    corr_matrix <- cor(num_data, use = "complete.obs")
+    corrplot(corr_matrix, method = "color", type = "upper",
+             tl.col = "black", addCoef.col = "black",
+             number.cex = 0.7, tl.cex = 0.8)
+  })
+  
+  output$exploratory_plot <- renderPlot({
+    req(data_train(), input$x_var, input$y_var)
+    ggplot(data_train(), aes_string(x = input$y_var, y = input$x_var)) +
+      geom_point(aes_string(color = input$x_var), size = 3) +
+      scale_color_gradient2(low = "#1f77b4", mid = "#9b59b6", high = "#e74c3c",
+                            midpoint = mean(data_train()[[input$x_var]], na.rm = TRUE)) +
+      theme_minimal() +
+      labs(title = paste("Plot", input$x_var, "vs", input$y_var), color = input$x_var)
+  })
+  
   output$model_summary <- renderPrint({
     req(model_lm())
     summary(model_lm())
   })
-
-  observeEvent(input$test_file, {
-    df <- read.csv(input$test_file$datapath)
-    test_data(df)
-  })
-
-  output$prediction_table <- renderDT({
-    req(model_lm(), test_data())
-    pred <- predict(model_lm(), newdata = test_data())
-    result <- cbind(test_data(), Prediksi = pred)
-    datatable(result, options = list(pageLength = 5))
-  })
-
-  output$prediction_plot <- renderPlot({
-    req(model_lm(), test_data())
-    pred <- predict(model_lm(), newdata = test_data())
-    actual <- test_data()[[input$target_var]]
-    df_plot <- data.frame(Actual = actual, Predicted = pred)
-
-    ggplot(df_plot, aes(x = Actual, y = Predicted)) +
-      geom_point(aes(color = Predicted), size = 3) +
-      scale_color_gradient(low = "#3498db", high = "#e74c3c") +
-      geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "black") +
-      theme_minimal(base_size = 14) +
-      labs(
-        title = "📉 Plot Prediksi vs Aktual",
-        subtitle = "Gradasi warna: biru = prediksi rendah, merah = prediksi tinggi",
-        x = "Nilai Aktual",
-        y = "Nilai Prediksi",
-        color = "Prediksi"
-      )
-  })
-
-  output$correlation_plot <- renderPlot({
-    req(train_data())
-    numeric_data <- train_data()[, sapply(train_data(), is.numeric)]
-    corr_matrix <- cor(numeric_data, use = "complete.obs")
-    corrplot(corr_matrix, method = "color", type = "upper", tl.cex = 0.8)
-  })
-
-  output$exploratory_plot <- renderPlot({
-    req(train_data(), input$target_var, input$predictor_var)
-    ggplot(train_data(), aes_string(x = input$predictor_var, y = input$target_var)) +
-      geom_point(aes_string(color = input$target_var), size = 3) +
-      scale_color_gradient(low = "blue", high = "red") +
-      theme_minimal(base_size = 14) +
-      labs(title = paste("🔍 Scatter Plot:", input$predictor_var, "vs", input$target_var))
-  })
-
+  
   output$save_model <- downloadHandler(
-    filename = function() { "model_regresi.rds" },
+    filename = function() { "model_uas.rds" },
     content = function(file) {
       saveRDS(model_lm(), file)
     }
   )
-
+  
   observeEvent(input$load_model, {
     req(input$load_model)
-    loaded_model <- readRDS(input$load_model$datapath)
-    model_lm(loaded_model)
-    showNotification("✅ Model berhasil dimuat. Silakan upload data testing lalu klik tombol Prediksi.", type = "message")
+    model <- readRDS(input$load_model$datapath)
+    model_lm(model)
+    showNotification("✅ Model berhasil dimuat. Silakan upload data testing lalu klik tombol Prediksi.")
+  })
+  
+  observeEvent(input$test_file, {
+    df <- read.csv(input$test_file$datapath)
+    data_test(df)
+  })
+  
+  observeEvent(input$predict_button, {
+    req(model_lm(), data_test())
+    prediction <- predict(model_lm(), newdata = data_test())
+    result <- cbind(data_test(), Prediksi = prediction)
+    pred_result(result)
+  })
+  
+  output$prediction_table <- renderDT({
+    req(pred_result())
+    datatable(pred_result())
+  })
+  
+  output$prediction_plot <- renderPlot({
+    req(pred_result(), input$x_var)
+    actual <- pred_result()[[input$x_var]]
+    predicted <- pred_result()[["Prediksi"]]
+    ggplot(data.frame(Actual = actual, Predicted = predicted), aes(x = Actual, y = Predicted)) +
+      geom_point(aes(color = Predicted), size = 3) +
+      scale_color_gradient(low = "#3498db", high = "#e74c3c") +
+      geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+      theme_minimal() +
+      labs(title = "Prediksi vs Aktual")
   })
 }
 
